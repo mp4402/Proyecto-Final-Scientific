@@ -23,4 +23,4 @@ excelglucosa
 [n, condiciones] = xlsread('datos.xlsx','E3:E138')
 printf('\n\n\n\n\n');
 p = condiciones(136,1)
-printf('la condicion es '+p);
+a=condiciones{136,1}
