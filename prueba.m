@@ -10,6 +10,7 @@ excelDates = datestr(matlabDates,2);
 excelhoras = xlsread('datos.xlsx','D1:D138');
 nanElements = isnan(excelhoras);
 excelhoras(nanElements) = [];
+exhoras = excelhoras;
 excelhoras = datestr(excelhoras,'HH:MM');
 
 %leer mg/dlmread
@@ -23,10 +24,17 @@ printf('\n\n\n\n\n');
 %p = condiciones(136,1);
 %a=condiciones{136,1};
 
-choice = menu('Seleccione una opción','Ingreso de hora habitual en la que se toma el medicamento','Ingreso de rango de fechas','Salir');
+choice = menu('Seleccione una opcion: ','Ingreso de hora habitual en la que se toma el medicamento','Ingreso de rango de fechas','Salir');
 switch choice
   case 1
-      hora=input("Ingrese la hora habitual: ");
+      hora = input("Ingrese la hora habitual (HH:MM): ", 's')
+      tiempo = strsplit(hora,":");
+      h = tiempo{1,1};
+      m = tiempo{1,2};
+      h = str2double(h);
+      m = str2double(m)/60;
+      hora = h +m;
+      hora = hora/24;
       
 case 2
     fecha_inicio = datenum(input("Ingrese fecha de inicio (mm/dd/yy): ",'s'),"mm/dd/yy");
