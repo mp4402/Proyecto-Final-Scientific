@@ -4,16 +4,14 @@ excelDates = xlsread('datos.xlsx','B1:B138');
 nanElements = isnan(excelDates); %indices donde estan los valores NaN
 excelDates(nanElements) = []; %eliminar las casillas
 matlabDates = 693960 + excelDates;
-for i=1: length(matlabDates)
-  datestr(matlabDates(i),2)
-endfor
+excelDates = datestr(matlabDates,2)
+
 %leer horas
 excelhoras = xlsread('datos.xlsx','D1:D138');
 nanElements = isnan(excelhoras);
 excelhoras(nanElements) = [];
-for i=1:length(excelhoras)
-datestr(excelhoras(i),'HH:MM')
-endfor
+excelhoras = datestr(excelhoras,'HH:MM');
+
 %leer mg/dlmread
 excelglucosa = xlsread('datos.xlsx','C1:C138');
 nanElements = isnan(excelglucosa);
