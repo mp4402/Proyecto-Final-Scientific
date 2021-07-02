@@ -35,33 +35,37 @@ switch choice
       m = str2double(m)/60;
       hora = h +m;
       hora = hora/24;
+  %____________________________ Opcion2: Ingreso Rando de Fechas _________________________________
+  case 2 
+      fecha_inicio = datenum(input("Ingrese fecha de inicio (mm/dd/yy): ",'s'),"mm/dd/yy");
+      while(fecha_inicio < matlabDates(1));
+        fecha_inicio = datenum(input("Ingrese otra vez la fecha de inicio (mm/dd/yy): ",'s'),"mm/dd/yy");
+      endwhile  
+      fecha_final = datenum(input("Ingrese fecha final (mm/dd/yy): ",'s'),"mm/dd/yy");
+      while(fecha_final>matlabDates(length(matlabDates)));
+        fecha_final = datenum(input("Ingrese otra vez la fecha final (mm/dd/yy): ",'s'),"mm/dd/yy");
+      endwhile
       
-case 2
-    fecha_inicio = datenum(input("Ingrese fecha de inicio (mm/dd/yy): ",'s'),"mm/dd/yy");
-    while(fecha_inicio < matlabDates(1));
-      fecha_inicio = datenum(input("Ingrese otra vez la fecha de inicio (mm/dd/yy): ",'s'),"mm/dd/yy");
-    endwhile  
-    fecha_final = datenum(input("Ingrese fecha final (mm/dd/yy): ",'s'),"mm/dd/yy");
-    while(fecha_final>matlabDates(length(matlabDates)));
-      fecha_final = datenum(input("Ingrese otra vez la fecha final (mm/dd/yy): ",'s'),"mm/dd/yy");
-    endwhile
-    
-    x = 1;
-    indices=[];
-    for i=1:length(excelDates)
-       if fecha_inicio >= matlabDates(i)
-         indices(x) = i;
-         x = x+1;
+      x = 1;
+      indices=[];
+      for i=1:length(excelDates);
+         if matlabDates(i) >= fecha_inicio && matlabDates(i) <= fecha_final;
+           indices(x) = i;
+           x = x+1;
+         endif
+       endfor
+       random = indices;
+       
+       if length(indices) > 10;
+          random = [indices(1): 1: indices(x-1)];
+          random = random(randperm (10,10));
        endif
-     endfor
-     
-     if length(indices) > 10
-        random = [indices(1): 1: indices(x)]
-        random = random(randperm (10,10))
-     endif
+       
+  %_____________________________________ Fin Opcion2__________________________________________________
   case 3
-  otherwise
+      otherwise
 endswitch
+
 
  
  
