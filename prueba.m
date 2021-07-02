@@ -31,36 +31,45 @@ tiempo = strsplit(hora_mediacamento,":");
 horas = str2double(tiempo{1,1});
 minutos = str2double(tiempo{1,2})/60;
 hora_mediacamento = (horas+minutos)/24;
-%_______________________________________________________________
+%__________________   Fin Pregunta    __________________________
+
+
+
+%____________________ Pregunta: Rango de analisis __________________________________________________
+fecha_inicio = inputdlg ("Ingrese fecha de inicio (mm/dd/yy): ");
+fecha_inicio = datenum(fecha_inicio{1,1}, "mm/dd/yy");
+while(fecha_inicio < matlabDates(1));
+  fecha_inicio = inputdlg ("Ingrese otra vez la fecha de inicio (mm/dd/yy): ");
+  fecha_inicio = datenum(fecha_inicio{1,1}, "mm/dd/yy");
+endwhile
+fecha_final = inputdlg ("Ingrese fecha final (mm/dd/yy): ");
+fecha_final = datenum(fecha_final{1,1}, "mm/dd/yy");
+while(fecha_final>matlabDates(length(matlabDates)));
+  fecha_final = inputdlg ("Ingrese otra vez la fecha final (mm/dd/yy): ");
+  fecha_final = datenum(fecha_final{1,1}, "mm/dd/yy");
+endwhile
+      
+x = 1;
+indices=[];
+for i=1:length(excelDates);
+   if matlabDates(i) >= fecha_inicio && matlabDates(i) <= fecha_final;
+     indices(x) = i;
+     x = x+1;
+   endif
+ endfor
+ random = indices;
+ 
+ if length(indices) > 10;
+    random = [indices(1): 1: indices(x-1)];
+    random = random(randperm (10,10));
+ endif
+%__________________________ Fin Pregunta ____________________________________________________________
 
 
 choice = menu('Seleccione una opcion: ','Ingreso de rango de fechas','Salir');
 switch choice
   %____________________________ Opcion2: Ingreso Rando de Fechas _________________________________
   case 1
-      fecha_inicio = datenum(input("Ingrese fecha de inicio (mm/dd/yy): ",'s'),"mm/dd/yy");
-      while(fecha_inicio < matlabDates(1));
-        fecha_inicio = datenum(input("Ingrese otra vez la fecha de inicio (mm/dd/yy): ",'s'),"mm/dd/yy");
-      endwhile  
-      fecha_final = datenum(input("Ingrese fecha final (mm/dd/yy): ",'s'),"mm/dd/yy");
-      while(fecha_final>matlabDates(length(matlabDates)));
-        fecha_final = datenum(input("Ingrese otra vez la fecha final (mm/dd/yy): ",'s'),"mm/dd/yy");
-      endwhile
-      
-      x = 1;
-      indices=[];
-      for i=1:length(excelDates);
-         if matlabDates(i) >= fecha_inicio && matlabDates(i) <= fecha_final;
-           indices(x) = i;
-           x = x+1;
-         endif
-       endfor
-       random = indices;
-       
-       if length(indices) > 10;
-          random = [indices(1): 1: indices(x-1)];
-          random = random(randperm (10,10));
-       endif
        
   %_____________________________________ Fin Opcion2__________________________________________________
   case 2
