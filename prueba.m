@@ -33,6 +33,41 @@ minutos = str2double(tiempo{1,2})/60;
 hora_mediacamento = (horas+minutos)/24;
 %__________________   Fin Pregunta    __________________________
 
+%_______ Cálculo numero de horas (hora glocosa menos toma de medicamento) ________________
+tiempo =[];
+temporal = 0.00;
+for i=1: length(excelhoras);
+  temporal = (exhoras(i) - hora_mediacamento);
+  if temporal <0;
+  temporal2 = datestr(exhoras(i),'HH:MM');
+  temporal2 = strsplit(temporal2,":");
+  h2 = str2num(temporal2{1,1});
+  m2 = str2num(temporal2{1,2});
+  
+  temporal = datestr(hora_mediacamento,'HH:MM');
+  temporal = strsplit(temporal,":");
+  h = str2num(temporal{1,1});
+  m = str2num(temporal{1,2});
+  
+  h = h2-h;
+  m = (m2-m)/60; 
+  if m >0;
+    m = m*-1
+  endif
+  temporal = h+m;
+  tiempo(i) = temporal;
+  else
+  temporal = datestr(temporal,'HH:MM');
+  temporal = strsplit(temporal,":");
+  h = str2num(temporal{1,1});
+  m = str2num(temporal{1,2})/60;
+  temporal = h + m;
+  tiempo(i) = temporal;
+  endif
+endfor
+tiempo
+%________________________________ Fin Cálculo ____________________________________________
+
 
 
 %____________________ Pregunta: Rango de analisis __________________________________________________
@@ -68,10 +103,7 @@ for i=1:length(excelDates);
 
 choice = menu('Seleccione una opcion: ','Ingreso de rango de fechas','Salir');
 switch choice
-  %____________________________ Opcion2: Ingreso Rando de Fechas _________________________________
   case 1
-       
-  %_____________________________________ Fin Opcion2__________________________________________________
   case 2
       otherwise
 endswitch
