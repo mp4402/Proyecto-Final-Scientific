@@ -24,19 +24,20 @@ printf('\n\n\n\n\n');
 %p = condiciones(136,1);
 %a=condiciones{136,1};
 
-choice = menu('Seleccione una opcion: ','Ingreso de hora habitual en la que se toma el medicamento','Ingreso de rango de fechas','Salir');
+%______ Pregunta: Primera dosis de mediacemento ________________
+hora_mediacamento = inputdlg ("Ingrese la hora en la que tomó su primera dosis de medicamento (HH:MM)");
+hora_mediacamento = hora_mediacamento{1,1};
+tiempo = strsplit(hora_mediacamento,":");
+horas = str2double(tiempo{1,1});
+minutos = str2double(tiempo{1,2})/60;
+hora_mediacamento = (horas+minutos)/24;
+%_______________________________________________________________
+
+
+choice = menu('Seleccione una opcion: ','Ingreso de rango de fechas','Salir');
 switch choice
-  case 1
-      hora = input("Ingrese la hora habitual (HH:MM): ", 's')
-      tiempo = strsplit(hora,":");
-      h = tiempo{1,1};
-      m = tiempo{1,2};
-      h = str2double(h);
-      m = str2double(m)/60;
-      hora = h +m;
-      hora = hora/24;
   %____________________________ Opcion2: Ingreso Rando de Fechas _________________________________
-  case 2 
+  case 1
       fecha_inicio = datenum(input("Ingrese fecha de inicio (mm/dd/yy): ",'s'),"mm/dd/yy");
       while(fecha_inicio < matlabDates(1));
         fecha_inicio = datenum(input("Ingrese otra vez la fecha de inicio (mm/dd/yy): ",'s'),"mm/dd/yy");
@@ -62,7 +63,7 @@ switch choice
        endif
        
   %_____________________________________ Fin Opcion2__________________________________________________
-  case 3
+  case 2
       otherwise
 endswitch
 
