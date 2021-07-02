@@ -52,7 +52,7 @@ for i=1: length(excelhoras);
   h = h2-h;
   m = (m2-m)/60; 
   if m >0;
-    m = m*-1
+    m = m*-1;
   endif
   temporal = h+m;
   tiempo(i) = temporal;
@@ -65,7 +65,6 @@ for i=1: length(excelhoras);
   tiempo(i) = temporal;
   endif
 endfor
-tiempo
 %________________________________ Fin Cálculo ____________________________________________
 
 
@@ -100,13 +99,36 @@ for i=1:length(excelDates);
  endif
 %__________________________ Fin Pregunta ____________________________________________________________
 
-
-choice = menu('Seleccione una opcion: ','Ingreso de rango de fechas','Salir');
+%__________________________ Menu de opciones _________________________________________________________
+choice = menu('Seleccione una opcion: ','Gráficas','Tabla de metabolización de glucosa','Aceleración metabólica de glucosa','Glucosa Promedio','Glucosa-Meta','Tendencia','Resumen Estadistico','Salir');
 switch choice
-  case 1
+  case 1  
+    %Funcion graficas
+    choice2 = menu('Elección de graficas','Puntos','Polinomio')
+    switch choice2
+      case 1
+        %Grafica por puntos
+      case 2
+        %Grafica por polinomio
+      case 3
+         otherwise
+    endswitch
   case 2
+    %Tabla de metabolizacion de glucos
+  case 3
+    %Aceleracion metabolica
+  case 4
+    %Glucosa Promedio
+  case 5
+    %Glucosa-Meta
+  case 6
+    %Tendencia
+  case 7
+    %Resumen Estadistico
+  case 8
       otherwise
 endswitch
+%__________________________ Fin menu de opciones ________________________________________________________
 
 
  
