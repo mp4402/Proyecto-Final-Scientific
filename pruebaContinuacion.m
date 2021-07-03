@@ -4,7 +4,8 @@ excelDates = xlsread('datos.xlsx','B1:B138');
 nanElements = isnan(excelDates); %indices donde estan los valores NaN
 excelDates(nanElements) = []; %eliminar las casillas
 matlabDates = 693960 + excelDates;
-excelDates = datestr(matlabDates,2);
+excelDates = datestr(matlabDates,2);  
+
 
 %leer horas
 excelhoras = xlsread('datos.xlsx','D1:D138');
@@ -100,14 +101,33 @@ for i=1:length(excelDates);
 %__________________________ Fin Pregunta ____________________________________________________________
 
 %__________________________ Menu de opciones _________________________________________________________
-choice = menu('Seleccione una opcion: ','Gr�ficas','Tabla de metabolizaci�n de glucosa','Aceleraci�n metab�lica de glucosa','Glucosa Promedio','Glucosa-Meta','Tendencia','Resumen Estadistico','Salir');
+
 randomSort=sort(random);
 tiempoSort=[];
 glucosaSort=[];
+tiempoSortGrafica = [];
+glucosaSortGrafica= [];
 for i=1:length(randomSort);
   tiempoSort(i)=tiempo(randomSort(i));
+  tiempoSortGrafica(i)=tiempo(randomSort(i));
   glucosaSort(i)=excelglucosa(randomSort(i),1);
+  glucosaSortGrafica(i) = excelglucosa(randomSort(i),1);
 endfor
+
+for i=1:length(tiempoSort);
+  indices = find(tiempoSortGrafica == tiempoSort(i));
+  if length(indices>1)
+    for k=2:length(indices);
+      tiempoSortGrafica(indices(k)) = [];
+      glucosaSortGrafica(indices(k)) = [];
+    endfor
+  endif
+endfor
+%tiempoSort
+tiempoSortGrafica
+%glucosaSort
+glucosaSortGrafica
+choice = menu('Seleccione una opcion: ','Gr�ficas','Tabla de metabolizaci�n de glucosa','Aceleraci�n metab�lica de glucosa','Glucosa Promedio','Glucosa-Meta','Tendencia','Resumen Estadistico','Salir');
 switch choice
   case 1  
     %Funcion graficas
@@ -115,13 +135,33 @@ switch choice
     switch choice2
       case 1
         %Grafica por puntos
+        graficas(tiempoSort,glucosaSort,1);
       case 2
         %Grafica por polinomio
+        graficas(tiempoSortGrafica,glucosaSortGrafica,2);
       case 3
          otherwise
     endswitch
   case 2
     %Tabla de metabolizacion de glucos
+    derivada = primeraDerivada(tiempoSort,glucosaSort);
+    fprintf('   Fecha     Razon de Cambio  Condicion\n');
+    for i=1:length(derivada)
+      if(derivada(randomSort(i)) < 0)
+        if(derivada(randomSort(i))<=-10)
+          fprintf('%s     %4.5f        %4s\n',datestr(matlabDates(randomSort(i))),derivada(randomSort(i)),condiciones{randomSort(i),1});
+        else
+          fprintf('%s     %4.5f         %4s\n',datestr(matlabDates(randomSort(i))),derivada(randomSort(i)),condiciones{randomSort(i),1});
+        endif
+      else
+        if(derivada(randomSort(i))>=10)
+          fprintf('%s     +%4.5f        %4s\n',datestr(matlabDates(randomSort(i))),derivada(randomSort(i)),condiciones{randomSort(i),1});
+        else
+          fprintf('%s     +%4.5f         %4s\n',datestr(matlabDates(randomSort(i))),derivada(randomSort(i)),condiciones{randomSort(i),1});
+        endif
+      endif
+    endfor
+    
   case 3
     %Aceleracion metabolica
     acelMeta=segundaDerivada(tiempoSort,glucosaSort);
