@@ -25,7 +25,7 @@ printf('\n\n\n\n\n');
 %a=condiciones{136,1};
 
 %______ Pregunta: Primera dosis de mediacemento ________________
-hora_mediacamento = inputdlg ("Ingrese la hora en la que tomó su primera dosis de medicamento (HH:MM)");
+hora_mediacamento = inputdlg ("Ingrese la hora en la que tomï¿½ su primera dosis de medicamento (HH:MM)");
 hora_mediacamento = hora_mediacamento{1,1};
 tiempo = strsplit(hora_mediacamento,":");
 horas = str2double(tiempo{1,1});
@@ -33,7 +33,7 @@ minutos = str2double(tiempo{1,2})/60;
 hora_mediacamento = (horas+minutos)/24;
 %__________________   Fin Pregunta    __________________________
 
-%_______ Cálculo numero de horas (hora glocosa menos toma de medicamento) ________________
+%_______ Cï¿½lculo numero de horas (hora glocosa menos toma de medicamento) ________________
 tiempo =[];
 temporal = 0.00;
 for i=1: length(excelhoras);
@@ -65,7 +65,7 @@ for i=1: length(excelhoras);
   tiempo(i) = temporal;
   endif
 endfor
-%________________________________ Fin Cálculo ____________________________________________
+%________________________________ Fin Cï¿½lculo ____________________________________________
 
 
 
@@ -100,7 +100,7 @@ for i=1:length(excelDates);
 %__________________________ Fin Pregunta ____________________________________________________________
 
 %__________________________ Menu de opciones _________________________________________________________
-choice = menu('Seleccione una opcion: ','Gráficas','Tabla de metabolización de glucosa','Aceleración metabólica de glucosa','Glucosa Promedio','Glucosa-Meta','Tendencia','Resumen Estadistico','Salir');
+choice = menu('Seleccione una opcion: ','Grï¿½ficas','Tabla de metabolizaciï¿½n de glucosa','Aceleraciï¿½n metabï¿½lica de glucosa','Glucosa Promedio','Glucosa-Meta','Tendencia','Resumen Estadistico','Salir');
 randomSort=sort(random);
 tiempoSort=[];
 glucosaSort=[];
@@ -111,7 +111,7 @@ endfor
 switch choice
   case 1  
     %Funcion graficas
-    choice2 = menu('Elección de graficas','Puntos','Polinomio')
+    choice2 = menu('Elecciï¿½n de graficas','Puntos','Polinomio')
     switch choice2
       case 1
         %Grafica por puntos
@@ -135,10 +135,17 @@ switch choice
   case 6
     clf
     puntos=regLineal(tiempoSort,glucosaSort); 
-    fprintf('La ecuación es: y=%4.5f*x+%4.5f\nEl r2 es: %4.5f\n',puntos(1),puntos(2),puntos(3));    
+    fprintf('La ecuaciï¿½n es: y=%4.5f*x+%4.5f\nEl r2 es: %4.5f\n',puntos(1),puntos(2),puntos(3));    
     %Tendencia
   case 7
     %Resumen Estadistico
+    # MEDIA DEL RANGO DE FECHAS
+    MEDIA = mean(excelglucosa)
+    MEDIANA = median(excelglucosa)
+    MODA = mode(excelglucosa)
+    VMAX = max(excelglucosa)
+    VMIN = min(excelglucosa)
+    DESVI = std(excelglucosa)
   case 8
   
   otherwise
