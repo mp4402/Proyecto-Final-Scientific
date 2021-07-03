@@ -140,12 +140,12 @@ switch choice
   case 7
     %Resumen Estadistico
     # MEDIA DEL RANGO DE FECHAS
-    MEDIA = mean(excelglucosa)
-    MEDIANA = median(excelglucosa)
-    MODA = mode(excelglucosa)
-    VMAX = max(excelglucosa)
-    VMIN = min(excelglucosa)
-    DESVI = std(excelglucosa)
+    MEDIA = mean(glucosaSort)
+    MEDIANA = median(glucosaSort)
+    MODA = mode(glucosaSort)
+    VMAX = max(glucosaSort)
+    VMIN = min(glucosaSort)
+    DESVI = std(glucosaSort)
   case 8
   
   otherwise
