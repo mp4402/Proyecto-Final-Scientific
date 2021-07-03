@@ -133,10 +133,15 @@ switch choice
   case 5
     %Glucosa-Meta
   case 6
+    clf
+    puntos=regLineal(tiempoSort,glucosaSort); 
+    fprintf('La ecuación es: y=%4.5f*x+%4.5f\nEl r2 es: %4.5f\n',puntos(1),puntos(2),puntos(3));    
     %Tendencia
   case 7
     %Resumen Estadistico
   case 8
-      otherwise
+  
+  otherwise
+
 endswitch
 %__________________________ Fin menu de opciones ________________________________________________________
