@@ -30,6 +30,7 @@ hora_mediacamento = inputdlg ("Ingrese la hora en la que tom� su primera dosis
 hora_mediacamento = hora_mediacamento{1,1};
 tiempo = strsplit(hora_mediacamento,":");
 horas = str2double(tiempo{1,1});
+hora_entera_medicamento = horas;
 minutos = str2double(tiempo{1,2})/60;
 hora_mediacamento = (horas+minutos)/24;
 %__________________   Fin Pregunta    __________________________
@@ -173,6 +174,19 @@ switch choice
     %Glucosa Promedio
   case 5
     %Glucosa-Meta
+    nuevas_horas =[]
+    glucosa_meta = inputdlg("Ingrese el nievl del glucosa: ");
+    horas_aproximadas = encontrarGlucosa(tiempoSortGrafica,glucosaSortGrafica,glucosa_meta)
+    %for i=1:length(horas_aproximadas)
+    %  if horas_aproximadas(i) > 0
+    %    entera_aprox = int2str(horas_aproximadas(i))
+    %    entera_aprox = str2double(horas_aproximadas(i)) + hora_entera_medicamento;
+    %    decimal = num2str(horas_aproximadas(i));
+    %    decimal = strsplit(decimal,".");
+        
+        
+    %  endif
+    %endfor
   case 6
     clf
     puntos=regLineal(tiempoSort,glucosaSort); 
