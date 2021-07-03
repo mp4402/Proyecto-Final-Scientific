@@ -167,6 +167,7 @@ switch choice
     acelMeta=segundaDerivada(tiempoSort,glucosaSort);
     maxAcelMeta=max(acelMeta);
     minAcelMeta=min(acelMeta);
+    fprintf('La aceleración maxima es: %4.5f\nLa aceleración minima es: %4.5f\n\n',maxAcelMeta,minAcelMeta);
   case 4
     promGluco=(1/(max(tiempoSort)-min(tiempoSort)))*integral(tiempoSort,glucosaSort)
     %Glucosa Promedio
