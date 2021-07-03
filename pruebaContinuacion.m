@@ -115,11 +115,11 @@ for i=1:length(randomSort);
 endfor
 
 for i=1:length(tiempoSort);
-  indices = find(tiempoSortGrafica == tiempoSort(i));
-  if length(indices>1)
-    for k=2:length(indices);
-      tiempoSortGrafica(indices(k)) = [];
-      glucosaSortGrafica(indices(k)) = [];
+  Nindices = find(tiempoSortGrafica == tiempoSort(i));
+  if length(Nindices>1)
+    for k=2:length(Nindices);
+      tiempoSortGrafica(Nindices(k)) = [];
+      glucosaSortGrafica(Nindices(k)) = [];
     endfor
   endif
 endfor
@@ -138,7 +138,7 @@ switch choice
         graficas(tiempoSort,glucosaSort,1);
       case 2
         %Grafica por polinomio
-        graficas(tiempoSortGrafica,glucosaSortGrafica,2);
+        Yinter = graficas(tiempoSortGrafica,glucosaSortGrafica,2);
       case 3
          otherwise
     endswitch
@@ -180,12 +180,12 @@ switch choice
   case 7
     %Resumen Estadistico
     # MEDIA DEL RANGO DE FECHAS
-    MEDIA = mean(glucosaSort)
-    MEDIANA = median(glucosaSort)
-    MODA = mode(glucosaSort)
-    VMAX = max(glucosaSort)
-    VMIN = min(glucosaSort)
-    DESVI = std(glucosaSort)
+    MEDIA = mean(excelglucosa(indices,1))
+    MEDIANA = median(excelglucosa(indices,1))
+    MODA = mode(excelglucosa(indices,1))
+    VMAX = max(excelglucosa(indices,1))
+    VMIN = min(excelglucosa(indices,1))
+    DESVI = std(excelglucosa(indices,1))
   case 8
   
   otherwise
