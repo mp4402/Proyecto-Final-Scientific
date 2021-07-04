@@ -1,4 +1,4 @@
-function aprox = encontrarGlucosa (x,y,glucosa_meta);
+function aprox=encontrarGlucosa (x,y,glucosa_meta);
   aprox = [];
   n = length(x); % La lingitud del vector x nos da el numero de coeficientes y terminos para el polinomio interpolante de newton.
   a(1) = y(1); %Aqui esta encontrando el primer coeficiente del polinomio.
@@ -15,12 +15,10 @@ function aprox = encontrarGlucosa (x,y,glucosa_meta);
     for j=2:n;
     a(j) = divDIF(1,j-1); % Aqui se asignan las diferencias divididas a los coeficientes restantes
     endfor
-
-  xtotal = [];
-  x = 1;
-  for j=1:length(x)-1
-    Xint = x(j):0.05:x(j+1);
-    xtotal = [xtotal,Xint];
+  xi = 1;
+  for j=1:length(x)-1;
+    Yinter = [];
+    Xint = x(j):0.05:x(j+1)
     len = length(Xint); %Se obtiene el tama�o del vector para saber donde finalizar el ciclo
     for i=1:len;
       Yinter(i) = a(1); 
@@ -31,10 +29,21 @@ function aprox = encontrarGlucosa (x,y,glucosa_meta);
       endfor
     endfor
     Yinter
-    for m=1: length(Yinter)
-      if glucosa_meta >= (Yinter(m)-2) && glucosa_meta <= (Yinter(m)+2);
-        aprox(x) = Xint(m)
-        x = x+1;
+    class(Yinter);
+    for m=1:length(Yinter);
+      r = Yinter(m) - 2;
+      b = Yinter(m) + 2;
+      z = Yinter(m)
+      class(z)
+      glucosa_meta
+      class(glucosa_meta)
+      if glucosa_meta > r && glucosa_meta < b
+        aprox(xi) = Xint(m);
+        xi = xi+1;
+      endif
+      if glucosa_meta == z
+        aprox(xi) = Xint(m);
+        xi = xi+1;
       endif
     endfor
   endfor

@@ -145,7 +145,7 @@ switch choice
     endswitch
   case 2
     %Tabla de metabolizacion de glucos
-    derivada = primeraDerivada(tiempoSort,glucosaSort);
+    derivada = primeraDerivada(tiempoSortGrafica,glucosaSortGrafica);
     fprintf('   Fecha     Razon de Cambio  Condicion\n');
     for i=1:length(derivada)
       if(derivada(randomSort(i)) < 0)
@@ -165,17 +165,18 @@ switch choice
     
   case 3
     %Aceleracion metabolica
-    acelMeta=segundaDerivada(tiempoSort,glucosaSort);
+    acelMeta=segundaDerivada(tiempoSortGrafica,glucosaSortGrafica);
     maxAcelMeta=max(acelMeta);
     minAcelMeta=min(acelMeta);
-    fprintf('La aceleración maxima es: %4.5f\nLa aceleración minima es: %4.5f\n\n',maxAcelMeta,minAcelMeta);
+    fprintf('La aceleraciï¿½n maxima es: %4.5f\nLa aceleraciï¿½n minima es: %4.5f\n\n',maxAcelMeta,minAcelMeta);
   case 4
-    promGluco=(1/(max(tiempoSort)-min(tiempoSort)))*integral(tiempoSort,glucosaSort)
+    promGluco=(1/(max(tiempoSortGrafica)-min(tiempoSortGrafica)))*integral(tiempoSortGrafica,glucosaSortGrafica)
     %Glucosa Promedio
   case 5
     %Glucosa-Meta
     nuevas_horas =[]
     glucosa_meta = inputdlg("Ingrese el nievl del glucosa: ");
+    glucosa_meta = str2double(glucosa_meta)
     horas_aproximadas = encontrarGlucosa(tiempoSortGrafica,glucosaSortGrafica,glucosa_meta)
     %for i=1:length(horas_aproximadas)
     %  if horas_aproximadas(i) > 0
