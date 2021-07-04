@@ -32,7 +32,9 @@ tiempo = strsplit(hora_mediacamento,":");
 horas = str2double(tiempo{1,1});
 hora_entera_medicamento = horas;
 minutos = str2double(tiempo{1,2})/60;
+hora_decimal_medicamento = minutos;
 hora_mediacamento = (horas+minutos)/24;
+hora_total_mediacmento = hora_mediacamento*24;
 %__________________   Fin Pregunta    __________________________
 
 %_______ C�lculo numero de horas (hora glocosa menos toma de medicamento) ________________
@@ -53,9 +55,6 @@ for i=1: length(excelhoras);
   
   h = h2-h;
   m = (m2-m)/60; 
-  if m >0;
-    m = m*-1;
-  endif
   temporal = h+m;
   tiempo(i) = temporal;
   else
@@ -168,7 +167,7 @@ switch choice
     acelMeta=segundaDerivada(tiempoSortGrafica,glucosaSortGrafica);
     maxAcelMeta=max(acelMeta);
     minAcelMeta=min(acelMeta);
-    fprintf('La aceleraci�n maxima es: %4.5f\nLa aceleraci�n minima es: %4.5f\n\n',maxAcelMeta,minAcelMeta);
+    fprintf('La aceleraci?n maxima es: %4.5f\nLa aceleraci?n minima es: %4.5f\n\n',maxAcelMeta,minAcelMeta);
   case 4
     promGluco=(1/(max(tiempoSortGrafica)-min(tiempoSortGrafica)))*integral(tiempoSortGrafica,glucosaSortGrafica)
     %Glucosa Promedio
@@ -176,18 +175,22 @@ switch choice
     %Glucosa-Meta
     nuevas_horas =[]
     glucosa_meta = inputdlg("Ingrese el nievl del glucosa: ");
-    glucosa_meta = str2double(glucosa_meta)
-    horas_aproximadas = encontrarGlucosa(tiempoSortGrafica,glucosaSortGrafica,glucosa_meta)
-    %for i=1:length(horas_aproximadas)
-    %  if horas_aproximadas(i) > 0
-    %    entera_aprox = int2str(horas_aproximadas(i))
-    %    entera_aprox = str2double(horas_aproximadas(i)) + hora_entera_medicamento;
-    %    decimal = num2str(horas_aproximadas(i));
-    %    decimal = strsplit(decimal,".");
-        
-        
-    %  endif
-    %endfor
+    glucosa_meta = str2num(glucosa_meta{1,1});
+    horas_aproximadas = encontrarGlucosa(tiempoSortGrafica,glucosaSortGrafica,glucosa_meta);
+    for i=1:length(horas_aproximadas);
+      if horas_aproximadas(i) > 0
+       entera_aprox = floor(horas_aproximadas(i));
+       entera_aprox = floor(horas_aproximadas(i)) + floor(hora_entera_medicamento);
+       decimal_aprox = horas_aproximadas(i) - floor(horas_aproximadas(i));
+       decimal_aprox = (decimal_aprox + hora_decimal_medicamento)*60;
+       fprintf('%0.0f:%0.0f\n',entera_aprox,decimal_aprox);
+      else
+         hora_aprox =  horas_aproximadas(i) + hora_total_mediacmento;
+         entera_aprox = floor(hora_aprox);
+         decimal_aprox = (hora_aprox - entera_aprox)*60;
+         fprintf('%0.0f:%0.0f\n',entera_aprox,decimal_aprox);
+      endif
+    endfor
   case 6
     clf
     puntos=regLineal(tiempoSort,glucosaSort); 
