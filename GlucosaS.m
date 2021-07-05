@@ -124,90 +124,93 @@ for i=1:length(tiempoSort);
   endif
 endfor
 %tiempoSort
-tiempoSortGrafica
+tiempoSortGrafica;
 %glucosaSort
-glucosaSortGrafica
-choice = menu('Seleccione una opcion: ','Gr�ficas','Tabla de metabolizaci�n de glucosa','Aceleraci�n metab�lica de glucosa','Glucosa Promedio','Glucosa-Meta','Tendencia','Resumen Estadistico','Salir');
-switch choice
-  case 1  
-    %Funcion graficas
-    choice2 = menu('Elecci�n de graficas','Puntos','Polinomio')
-    switch choice2
-      case 1
-        %Grafica por puntos
-        graficas(tiempoSort,glucosaSort,1);
-      case 2
-        %Grafica por polinomio
-        Yinter = graficas(tiempoSortGrafica,glucosaSortGrafica,2);
-      case 3
-         otherwise
-    endswitch
-  case 2
-    %Tabla de metabolizacion de glucos
-    derivada = primeraDerivada(tiempoSortGrafica,glucosaSortGrafica);
-    fprintf('   Fecha     Razon de Cambio  Condicion\n');
-    for i=1:length(derivada)
-      if(derivada(randomSort(i)) < 0)
-        if(derivada(randomSort(i))<=-10)
-          fprintf('%s     %4.5f        %4s\n',datestr(matlabDates(randomSort(i))),derivada(randomSort(i)),condiciones{randomSort(i),1});
+glucosaSortGrafica;
+while 1;
+  choice = menu('Seleccione una opcion: ','Gr�ficas','Tabla de metabolizaci�n de glucosa','Aceleraci�n metab�lica de glucosa','Glucosa Promedio','Glucosa-Meta','Tendencia','Resumen Estadistico','Salir');
+  switch choice
+    case 1  
+      %Funcion graficas
+      choice2 = menu('Elecci�n de graficas','Puntos','Polinomio')
+      switch choice2
+        case 1
+          %Grafica por puntos
+          graficas(tiempoSort,glucosaSort,1);
+        case 2
+          %Grafica por polinomio
+          Yinter = graficas(tiempoSortGrafica,glucosaSortGrafica,2);
+        case 3
+           otherwise
+      endswitch
+    case 2
+      %Tabla de metabolizacion de glucos
+      derivada = primeraDerivada(tiempoSortGrafica,glucosaSortGrafica);
+      fprintf('   Fecha     Razon de Cambio  Condicion\n');
+      for i=1:length(derivada)
+        if(derivada(randomSort(i)) < 0)
+          if(derivada(randomSort(i))<=-10)
+            fprintf('%s     %4.5f        %4s\n',datestr(matlabDates(randomSort(i))),derivada(randomSort(i)),condiciones{randomSort(i),1});
+          else
+            fprintf('%s     %4.5f         %4s\n',datestr(matlabDates(randomSort(i))),derivada(randomSort(i)),condiciones{randomSort(i),1});
+          endif
         else
-          fprintf('%s     %4.5f         %4s\n',datestr(matlabDates(randomSort(i))),derivada(randomSort(i)),condiciones{randomSort(i),1});
+          if(derivada(randomSort(i))>=10)
+            fprintf('%s     +%4.5f        %4s\n',datestr(matlabDates(randomSort(i))),derivada(randomSort(i)),condiciones{randomSort(i),1});
+          else
+            fprintf('%s     +%4.5f         %4s\n',datestr(matlabDates(randomSort(i))),derivada(randomSort(i)),condiciones{randomSort(i),1});
+          endif
         endif
-      else
-        if(derivada(randomSort(i))>=10)
-          fprintf('%s     +%4.5f        %4s\n',datestr(matlabDates(randomSort(i))),derivada(randomSort(i)),condiciones{randomSort(i),1});
-        else
-          fprintf('%s     +%4.5f         %4s\n',datestr(matlabDates(randomSort(i))),derivada(randomSort(i)),condiciones{randomSort(i),1});
-        endif
-      endif
-    endfor
-    
-  case 3
-    %Aceleracion metabolica
-    acelMeta=segundaDerivada(tiempoSortGrafica,glucosaSortGrafica);
-    maxAcelMeta=max(acelMeta);
-    minAcelMeta=min(acelMeta);
-    fprintf('La aceleraci?n maxima es: %4.5f\nLa aceleraci?n minima es: %4.5f\n\n',maxAcelMeta,minAcelMeta);
-  case 4
-    promGluco=(1/(max(tiempoSortGrafica)-min(tiempoSortGrafica)))*integral(tiempoSortGrafica,glucosaSortGrafica)
-    %Glucosa Promedio
-  case 5
-    %Glucosa-Meta
-    nuevas_horas =[]
-    glucosa_meta = inputdlg("Ingrese el nievl del glucosa: ");
-    glucosa_meta = str2num(glucosa_meta{1,1});
-    horas_aproximadas = encontrarGlucosa(tiempoSortGrafica,glucosaSortGrafica,glucosa_meta);
-    for i=1:length(horas_aproximadas);
-      if horas_aproximadas(i) > 0
-       entera_aprox = floor(horas_aproximadas(i));
-       entera_aprox = floor(horas_aproximadas(i)) + floor(hora_entera_medicamento);
-       decimal_aprox = horas_aproximadas(i) - floor(horas_aproximadas(i));
-       decimal_aprox = (decimal_aprox + hora_decimal_medicamento)*60;
-       fprintf('%0.0f:%0.0f\n',entera_aprox,decimal_aprox);
-      else
-         hora_aprox =  horas_aproximadas(i) + hora_total_mediacmento;
-         entera_aprox = floor(hora_aprox);
-         decimal_aprox = (hora_aprox - entera_aprox)*60;
+      endfor
+      
+    case 3
+      %Aceleracion metabolica
+      acelMeta=segundaDerivada(tiempoSortGrafica,glucosaSortGrafica);
+      maxAcelMeta=max(acelMeta);
+      minAcelMeta=min(acelMeta);
+      fprintf('La aceleraci?n maxima es: %4.5f\nLa aceleraci?n minima es: %4.5f\n\n',maxAcelMeta,minAcelMeta);
+    case 4
+      promGluco=(1/(max(tiempoSortGrafica)-min(tiempoSortGrafica)))*integral(tiempoSortGrafica,glucosaSortGrafica)
+      %Glucosa Promedio
+    case 5
+      %Glucosa-Meta
+      nuevas_horas =[]
+      glucosa_meta = inputdlg("Ingrese el nievl del glucosa: ");
+      glucosa_meta = str2num(glucosa_meta{1,1});
+      horas_aproximadas = encontrarGlucosa(tiempoSortGrafica,glucosaSortGrafica,glucosa_meta);
+      for i=1:length(horas_aproximadas);
+        if horas_aproximadas(i) > 0
+         entera_aprox = floor(horas_aproximadas(i));
+         entera_aprox = floor(horas_aproximadas(i)) + floor(hora_entera_medicamento);
+         decimal_aprox = horas_aproximadas(i) - floor(horas_aproximadas(i));
+         decimal_aprox = (decimal_aprox + hora_decimal_medicamento)*60;
          fprintf('%0.0f:%0.0f\n',entera_aprox,decimal_aprox);
-      endif
-    endfor
-  case 6
-    clf
-    puntos=regLineal(tiempoSort,glucosaSort); 
-    fprintf('La ecuaci�n es: y=%4.5f*x+%4.5f\nEl r2 es: %4.5f\n',puntos(1),puntos(2),puntos(3));    
-    %Tendencia
-  case 7
-    %Resumen Estadistico
-    # MEDIA DEL RANGO DE FECHAS
-    MEDIA = mean(excelglucosa(indices,1))
-    MEDIANA = median(excelglucosa(indices,1))
-    MODA = mode(excelglucosa(indices,1))
-    VMAX = max(excelglucosa(indices,1))
-    VMIN = min(excelglucosa(indices,1))
-    DESVI = std(excelglucosa(indices,1))
-  case 8
-  
-  otherwise
+        else
+           hora_aprox =  horas_aproximadas(i) + hora_total_mediacmento;
+           entera_aprox = floor(hora_aprox);
+           decimal_aprox = (hora_aprox - entera_aprox)*60;
+           fprintf('%0.0f:%0.0f\n',entera_aprox,decimal_aprox);
+        endif
+      endfor
+    case 6
+      clf
+      puntos=regLineal(tiempoSort,glucosaSort); 
+      fprintf('La ecuaci�n es: y=%4.5f*x+%4.5f\nEl r2 es: %4.5f\n',puntos(1),puntos(2),puntos(3));    
+      %Tendencia
+    case 7
+      %Resumen Estadistico
+      # MEDIA DEL RANGO DE FECHAS
+      MEDIA = mean(excelglucosa(indices,1))
+      MEDIANA = median(excelglucosa(indices,1))
+      MODA = mode(excelglucosa(indices,1))
+      VMAX = max(excelglucosa(indices,1))
+      VMIN = min(excelglucosa(indices,1))
+      DESVI = std(excelglucosa(indices,1))
+    case 8
+      break
+    otherwise
 
-endswitch
+  endswitch
+endwhile
+
 %__________________________ Fin menu de opciones ________________________________________________________
