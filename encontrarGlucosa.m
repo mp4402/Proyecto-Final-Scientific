@@ -72,5 +72,5 @@ for i=1: length(imagen_aprox)
 endfor
 
 
-aprox
+aprox;
 endfunction

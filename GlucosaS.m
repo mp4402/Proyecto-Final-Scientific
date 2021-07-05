@@ -129,6 +129,8 @@ tiempoSortGrafica;
 glucosaSortGrafica;
 while 1;
   choice = menu('Seleccione una opcion: ','Gr�ficas','Tabla de metabolizaci�n de glucosa','Aceleraci�n metab�lica de glucosa','Glucosa Promedio','Glucosa-Meta','Tendencia','Resumen Estadistico','Salir');
+  clf
+  clc
   switch choice
     case 1  
       %Funcion graficas
@@ -140,6 +142,7 @@ while 1;
         case 2
           %Grafica por polinomio
           Yinter = graficas(tiempoSortGrafica,glucosaSortGrafica,2);
+          grid on
         case 3
            otherwise
       endswitch
@@ -170,11 +173,12 @@ while 1;
       minAcelMeta=min(acelMeta);
       fprintf('La aceleraci?n maxima es: %4.5f\nLa aceleraci?n minima es: %4.5f\n\n',maxAcelMeta,minAcelMeta);
     case 4
-      promGluco=(1/(max(tiempoSortGrafica)-min(tiempoSortGrafica)))*integral(tiempoSortGrafica,glucosaSortGrafica)
+      promGluco=(1/(max(tiempoSortGrafica)-min(tiempoSortGrafica)))*integral(tiempoSortGrafica,glucosaSortGrafica);
+      printf('Glucosa promedio: %4.5f\n',promGluco);
       %Glucosa Promedio
     case 5
       %Glucosa-Meta
-      nuevas_horas =[]
+      nuevas_horas =[];
       glucosa_meta = inputdlg("Ingrese el nievl del glucosa: ");
       glucosa_meta = str2num(glucosa_meta{1,1});
       horas_aproximadas = encontrarGlucosa(tiempoSortGrafica,glucosaSortGrafica,glucosa_meta);
@@ -203,9 +207,9 @@ while 1;
       MEDIA = mean(excelglucosa(indices,1))
       MEDIANA = median(excelglucosa(indices,1))
       MODA = mode(excelglucosa(indices,1))
-      VMAX = max(excelglucosa(indices,1))
-      VMIN = min(excelglucosa(indices,1))
-      DESVI = std(excelglucosa(indices,1))
+      Glucosa_Maxima = max(excelglucosa(indices,1))
+      Glucosa_Minima = min(excelglucosa(indices,1))
+      Desviasion_estandar = std(excelglucosa(indices,1))
     case 8
       break
     otherwise
