@@ -5,26 +5,21 @@ nanElements = isnan(excelDates); %indices donde estan los valores NaN
 excelDates(nanElements) = []; %eliminar las casillas
 matlabDates = 693960 + excelDates;
 excelDates = datestr(matlabDates,2);  
-
-
 %leer horas
 excelhoras = xlsread('datos.xlsx','D1:D138');
 nanElements = isnan(excelhoras);
 excelhoras(nanElements) = [];
 exhoras = excelhoras;
 excelhoras = datestr(excelhoras,'HH:MM');
-
 %leer mg/dlmread
 excelglucosa = xlsread('datos.xlsx','C1:C138');
 nanElements = isnan(excelglucosa);
 excelglucosa(nanElements) = [];
-
 %leer condicion 
 [n, condiciones] = xlsread('datos.xlsx','E3:E138');
 printf('\n\n\n\n\n');
 %p = condiciones(136,1);
 %a=condiciones{136,1};
-
 %______ Pregunta: Primera dosis de mediacemento ________________
 hora_mediacamento = inputdlg ("Ingrese la hora en la que tom� su primera dosis de medicamento (HH:MM)");
 hora_mediacamento = hora_mediacamento{1,1};
@@ -67,9 +62,6 @@ for i=1: length(excelhoras);
   endif
 endfor
 %________________________________ Fin C�lculo ____________________________________________
-
-
-
 %____________________ Pregunta: Rango de analisis __________________________________________________
 fecha_inicio = inputdlg ("Ingrese fecha de inicio (mm/dd/yy): ");
 fecha_inicio = datenum(fecha_inicio{1,1}, "mm/dd/yy");
@@ -164,8 +156,7 @@ while 1;
             fprintf('%s     +%4.5f         %4s\n',datestr(matlabDates(randomSort(i))),derivada(randomSort(i)),condiciones{randomSort(i),1});
           endif
         endif
-      endfor
-      
+      endfor     
     case 3
       %Aceleracion metabolica
       acelMeta=segundaDerivada(tiempoSortGrafica,glucosaSortGrafica);
@@ -213,8 +204,6 @@ while 1;
     case 8
       break
     otherwise
-
   endswitch
 endwhile
-
 %__________________________ Fin menu de opciones ________________________________________________________
