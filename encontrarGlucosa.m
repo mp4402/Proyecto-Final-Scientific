@@ -59,16 +59,15 @@ endfor
 
 indice_N = [];
 for i=1: length(imagen_aprox)
-  indice_N = find(aprox == imagen_aprox(i));
+   indice_N = find(aprox == imagen_aprox(i));
   if length(indice_N) >1
-    
-  if length(indice_N) == 2
-    aprox(indice_N(2)) = [];
-  else
-  for k = 2: length(indice_N)-1
-    aprox(indice_N(k)) = [];
-  endfor
-  endif
+    if length(indice_N) == 2
+      aprox(indice_N(2)) = [];
+    else
+      for k = 2: length(indice_N)-1
+        aprox(indice_N(k)) = [];
+      endfor
+    endif
   endif
 endfor
 
