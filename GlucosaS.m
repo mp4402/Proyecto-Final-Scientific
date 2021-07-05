@@ -5,21 +5,26 @@ nanElements = isnan(excelDates); %indices donde estan los valores NaN
 excelDates(nanElements) = []; %eliminar las casillas
 matlabDates = 693960 + excelDates;
 excelDates = datestr(matlabDates,2);  
+
+
 %leer horas
 excelhoras = xlsread('datos.xlsx','D1:D138');
 nanElements = isnan(excelhoras);
 excelhoras(nanElements) = [];
 exhoras = excelhoras;
 excelhoras = datestr(excelhoras,'HH:MM');
+
 %leer mg/dlmread
 excelglucosa = xlsread('datos.xlsx','C1:C138');
 nanElements = isnan(excelglucosa);
 excelglucosa(nanElements) = [];
+
 %leer condicion 
 [n, condiciones] = xlsread('datos.xlsx','E3:E138');
 printf('\n\n\n\n\n');
 %p = condiciones(136,1);
 %a=condiciones{136,1};
+
 %______ Pregunta: Primera dosis de mediacemento ________________
 hora_mediacamento = inputdlg ("Ingrese la hora en la que tom� su primera dosis de medicamento (HH:MM)");
 hora_mediacamento = hora_mediacamento{1,1};
@@ -62,6 +67,9 @@ for i=1: length(excelhoras);
   endif
 endfor
 %________________________________ Fin C�lculo ____________________________________________
+
+
+
 %____________________ Pregunta: Rango de analisis __________________________________________________
 fecha_inicio = inputdlg ("Ingrese fecha de inicio (mm/dd/yy): ");
 fecha_inicio = datenum(fecha_inicio{1,1}, "mm/dd/yy");
@@ -90,6 +98,10 @@ for i=1:length(excelDates);
     random = [indices(1): 1: indices(x-1)];
     random = random(randperm (10,10));
  endif
+ 
+ for i=1: length(indices)
+   datestr(matlabDates(indices(i)))
+ endfor
 %__________________________ Fin Pregunta ____________________________________________________________
 
 %__________________________ Menu de opciones _________________________________________________________
@@ -130,7 +142,7 @@ while 1;
       switch choice2
         case 1
           %Grafica por puntos
-          graficas(tiempoSort,glucosaSort,1);
+          graficas(tiempoSortGrafica,glucosaSortGrafica,1);
         case 2
           %Grafica por polinomio
           Yinter = graficas(tiempoSortGrafica,glucosaSortGrafica,2);
@@ -143,20 +155,21 @@ while 1;
       derivada = primeraDerivada(tiempoSortGrafica,glucosaSortGrafica);
       fprintf('   Fecha     Razon de Cambio  Condicion\n');
       for i=1:length(derivada)
-        if(derivada(randomSort(i)) < 0)
-          if(derivada(randomSort(i))<=-10)
-            fprintf('%s     %4.5f        %4s\n',datestr(matlabDates(randomSort(i))),derivada(randomSort(i)),condiciones{randomSort(i),1});
+        if(derivada(i) < 0)
+          if(derivada(i)<=-10)
+            fprintf('%s     %4.5f        %4s\n',datestr(matlabDates(randomSort(i))),derivada(i),condiciones{randomSort(i),1});
           else
-            fprintf('%s     %4.5f         %4s\n',datestr(matlabDates(randomSort(i))),derivada(randomSort(i)),condiciones{randomSort(i),1});
+            fprintf('%s     %4.5f         %4s\n',datestr(matlabDates(randomSort(i))),derivada(i),condiciones{randomSort(i),1});
           endif
         else
-          if(derivada(randomSort(i))>=10)
-            fprintf('%s     +%4.5f        %4s\n',datestr(matlabDates(randomSort(i))),derivada(randomSort(i)),condiciones{randomSort(i),1});
+          if(derivada(i)>=10)
+            fprintf('%s     +%4.5f        %4s\n',datestr(matlabDates(randomSort(i))),derivada(i),condiciones{randomSort(i),1});
           else
-            fprintf('%s     +%4.5f         %4s\n',datestr(matlabDates(randomSort(i))),derivada(randomSort(i)),condiciones{randomSort(i),1});
+            fprintf('%s     +%4.5f         %4s\n',datestr(matlabDates(randomSort(i))),derivada(i),condiciones{randomSort(i),1});
           endif
         endif
-      endfor     
+      endfor
+      
     case 3
       %Aceleracion metabolica
       acelMeta=segundaDerivada(tiempoSortGrafica,glucosaSortGrafica);
@@ -204,6 +217,8 @@ while 1;
     case 8
       break
     otherwise
+
   endswitch
 endwhile
+
 %__________________________ Fin menu de opciones ________________________________________________________
