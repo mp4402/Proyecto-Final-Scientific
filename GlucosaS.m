@@ -214,6 +214,11 @@ while 1;
       Glucosa_Maxima = max(excelglucosa(indices,1))
       Glucosa_Minima = min(excelglucosa(indices,1))
       Desviasion_estandar = std(excelglucosa(indices,1))
+      vecGlucosa = [];
+      for i=1:length(indices)
+        vecGlucosa(i) = excelglucosa(indices(i));
+      endfor
+      hist(vecGlucosa);
     case 8
       break
     otherwise
